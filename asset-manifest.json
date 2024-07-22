@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/social-network-demo-/static/css/main.790dc8cc.css",
+    "main.js": "/social-network-demo-/static/js/main.44f9aa76.js",
+    "static/css/929.daace7c7.chunk.css": "/social-network-demo-/static/css/929.daace7c7.chunk.css",
+    "static/js/929.174398a4.chunk.js": "/social-network-demo-/static/js/929.174398a4.chunk.js",
+    "static/css/142.20dccd0c.chunk.css": "/social-network-demo-/static/css/142.20dccd0c.chunk.css",
+    "static/js/142.ec325170.chunk.js": "/social-network-demo-/static/js/142.ec325170.chunk.js",
+    "static/media/andrew-tate-3.jpg": "/social-network-demo-/static/media/andrew-tate-3.8043eeba936e489f3871.jpg",
+    "index.html": "/social-network-demo-/index.html",
+    "main.790dc8cc.css.map": "/social-network-demo-/static/css/main.790dc8cc.css.map",
+    "main.44f9aa76.js.map": "/social-network-demo-/static/js/main.44f9aa76.js.map",
+    "929.daace7c7.chunk.css.map": "/social-network-demo-/static/css/929.daace7c7.chunk.css.map",
+    "929.174398a4.chunk.js.map": "/social-network-demo-/static/js/929.174398a4.chunk.js.map",
+    "142.20dccd0c.chunk.css.map": "/social-network-demo-/static/css/142.20dccd0c.chunk.css.map",
+    "142.ec325170.chunk.js.map": "/social-network-demo-/static/js/142.ec325170.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.790dc8cc.css",
+    "static/js/main.44f9aa76.js"
+  ]
+}
