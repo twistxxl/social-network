@@ -9,11 +9,15 @@ const Profile = (props) => {
 
     return (
         <div className={style.content}>
-            {/* <div>
-                <img src="https://it-butik.ru/uploads/images/blog/2023-02-18/VHrnvwULjsSnqM861bSoUZrVCRdDaDzDTzi8ysAj.jpg" alt="" srcset="" />
-            </div> */}
-            
-            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
+                        
+            <ProfileInfo 
+            profile={props.profile} 
+            status={props.status} 
+            updateStatus={props.updateStatus}
+            isOwner={props.isOwner}
+            savePhoto={props.savePhoto}
+            saveProfile={props.saveProfile}
+            />
             <MyPostsContainer
                 store={props.store} 
                 

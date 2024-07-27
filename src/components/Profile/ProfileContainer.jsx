@@ -4,8 +4,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Profile from "./Profile";
-import { getStatus, getUserProfile, updateStatus } from "../../reducers/profileReducer";
-import { Navigate } from "react-router-dom";
+import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from "../../reducers/profileReducer";
 import withAuthRedirect from "../../HOC/withAuthRedirect"
 
 
@@ -16,7 +15,7 @@ const ProfileContainer = (props) => {
         id = props.autherizedUserId
 
         if (!id) {
-           props.history.push('/login')
+            props.history.push('/login')
         }
     }
 
@@ -30,7 +29,18 @@ const ProfileContainer = (props) => {
 
     return (
         <div>
-            <Profile profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
+            <Profile
+                profile={props.profile}
+                status={props.status}
+                updateStatus={props.updateStatus}
+                isOwner={!!id}
+                savePhoto={props.savePhoto}
+                saveProfile={props.saveProfile}
+                postsData={props.postsData}
+                newPostText={props.newPostText}
+                store={props.store}
+                
+            />
         </div>
     );
 };
@@ -48,4 +58,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getUserProfile, getStatus, updateStatus })(AuthRiderectComponent);
+export default connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile })(AuthRiderectComponent);

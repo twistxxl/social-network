@@ -23,7 +23,7 @@ const App = (props) => {
   }  
 
   return (  
-    <BrowserRouter>  
+    <BrowserRouter >  
       <div className="app-wrapper">  
         <HeaderContainer />  
         <Navbar />  

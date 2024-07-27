@@ -1,8 +1,9 @@
-import { getProfile, profileAPI } from "../api/api";
+import { profileAPI } from "../api/api";
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET-USER-PROFILE';
-const SET_STATUS = 'SET-STATUS';
+const ADD_POST = 'profile/ADD-POST';
+const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
+const SET_STATUS = 'profile/SET-STATUS';
+const SAVE_PHOTO_SUCCESS = 'profile/SAVE-PHOTO-SUCCESS';
 
 let initialState = {
     postsData: [
@@ -46,6 +47,12 @@ const profileReducer = (state = initialState, action) => {
                 status: action.status
             }
         }
+        case SAVE_PHOTO_SUCCESS: {
+            return {
+                ...state,
+                profile: { ...state.profile, photos: action.photos }
+            }
+        }
         default:
             return state
     }
@@ -73,6 +80,14 @@ export const setStatus = (status) => {
     }
 }
 
+export const savePhotoSuccess = (photos) => {
+    return {
+        type: SAVE_PHOTO_SUCCESS,
+        photos
+    }
+}
+
+
 
 //thunk down
 //если есть запрос на сервер(в нашем случае ajax), то нужно использовать thunk
@@ -98,6 +113,22 @@ export const updateStatus = (status) => {
                 if (response.data.resultCode === 0) {
                     dispatch(setStatus(status))
                 }
+    }
+}
+
+export const savePhoto = (file) => {
+    return async (dispatch) => {
+        let response = await profileAPI.savePhoto(file)
+        if (response.data.resultCode === 0) {
+            dispatch(setUserProfile(response.data.data.photos))
+        }
+    }
+}
+export const saveProfile = (profile) => async (dispatch, getState) => {
+    const userId = getState().auth.userId
+    const response = await profileAPI.saveProfile(profile)
+    if(response.data.resultCode === 0) {
+        dispatch(getUserProfile(userId))
     }
 }
 

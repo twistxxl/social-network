@@ -27,7 +27,7 @@ export const getProfile = (userId) => {
     return profileAPI.getProfile(userId)
 }
 export const authAPI = {
-     me() {
+    me() {
         return instance.get(`https://social-network.samuraijs.com/api/1.0/auth/me`)
     },
     login(email, password, rememberMe = false, captcha = null) {
@@ -49,6 +49,28 @@ export const profileAPI = {
     updateStatus(status) {
         return instance.put(`https://social-network.samuraijs.com/api/1.0/profile/status/`, { status: status })
     },
+    savePhoto(file) {
+        const formData = new FormData();
+        formData.append("image", file);
+        return instance.put(`https://social-network.samuraijs.com/api/1.0/profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+
+    saveProfile(profile) {
+        return instance.put(`https://social-network.samuraijs.com/api/1.0/profile`, profile)
+    },
+
+
+}
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get(`https://social-network.samuraijs.com/api/1.0/security/get-captcha-url`)
+    },
+
 }
 
 
