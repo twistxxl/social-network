@@ -56,3 +56,7 @@ const mapStateToProps = (state) => {
 }  
 
 export default compose(connect(mapStateToProps, { initializeApp }))(App);
+
+
+//https://stackoverflow.com/questions/47928735/react-scripts-is-not-recognized-as-an-internal-or-external-command
+// для запуска npm start при клнирвонии проекта через гит
