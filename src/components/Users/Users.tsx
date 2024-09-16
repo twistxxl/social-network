@@ -1,14 +1,26 @@
 import React from "react";
-import Paginator from "./Paginator"
-import User from "./User"
+import Paginator from "./Paginator.tsx"
+import User from "./User.jsx"
+import { userType } from "../../types/types";
+
+type PropsType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (p: number) => void
+    users: Array<userType>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    followingInProgress: Array<number>
+    setCurrentPage: (pageNumber: number) => void
+    toggleFollowingInProgress: (isFetching: boolean, userId: number) => void
+}
 
 
+const Users: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, onPageChanged, users, follow, unfollow, followingInProgress}) => {
 
-
-const Users = (props) => {
-
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-    let pages = [];
+    let pagesCount = Math.ceil(totalUsersCount / pageSize)
+    let pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
 
@@ -17,14 +29,14 @@ const Users = (props) => {
     return (
         <div>
             <Paginator 
-            currentPage={props.currentPage} 
-            onPageChanged={props.onPageChanged} 
-            totalItemsCount={props.totalUsersCount} 
-            pageSize={props.pageSize} 
+            currentPage={currentPage} 
+            onPageChanged={onPageChanged} 
+            totalItemsCount={totalUsersCount} 
+            pageSize={pageSize} 
             />
 
-            {props.users.map(user => {
-                return <User key={user.id} user={user} followingInProgress={props.followingInProgress} follow={props.follow} unfollow={props.unfollow}/>
+            {users.map(user => {
+                return <User key={user.id} user={user} followingInProgress={followingInProgress} follow={follow} unfollow={unfollow}/>
                     {/* <span>
                         <div>
                             <Link to={'/profile/' + user.id}>

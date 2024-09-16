@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { connect } from "react-redux";
 import Header from "./Header";
-import {  logout } from "../../reducers/authReducer";
+import {  logout } from "../../reducers/authReducer.ts";
 
 
 

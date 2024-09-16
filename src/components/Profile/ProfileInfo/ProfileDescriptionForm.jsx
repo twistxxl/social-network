@@ -1,5 +1,5 @@
 import React from "react"
-import { Input, Textarea } from "../../common/FormControls"
+import { Input, Textarea } from "../../common/FormControls.tsx"
 import { Field, reduxForm } from "redux-form"
 
 

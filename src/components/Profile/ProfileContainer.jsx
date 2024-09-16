@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Profile from "./Profile";
-import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from "../../reducers/profileReducer";
+import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from "../../reducers/profileReducer.ts";
 import withAuthRedirect from "../../HOC/withAuthRedirect"
 
 

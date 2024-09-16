@@ -2,12 +2,13 @@ import React, { useEffect, Suspense } from 'react';
 import './App.css';  
 import Navbar from './components/Navbar/Navbar';  
 import { BrowserRouter, Routes, Route } from 'react-router-dom';  
-import UsersContainer from './components/Users/UsersContainer';  
+import UsersContainer from './components/Users/UsersContainer.tsx';  
 import HeaderContainer from './components/Header/HeaderContainer';  
-import Login from './components/Login/Login';  
+import Login from './components/Login/Login.tsx';  
 import { connect } from 'react-redux';  
-import { initializeApp } from './reducers/appReducer';  
+import { initializeApp } from './reducers/appReducer.ts';  
 import { compose } from 'redux';  
+
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))  
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))  
@@ -39,7 +40,7 @@ const App = (props) => {
                   newPostText={props.newPostText}  
                 />  
               } />  
-              <Route path='/users' element={<UsersContainer />} />  
+              <Route path='/users' element={<UsersContainer pageTitle={"samurai"} />} />  
               <Route path='/login' element={<Login />} />  
             </Routes>  
           </Suspense>  

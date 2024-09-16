@@ -1,4 +1,4 @@
-import store from './reducers/reduxStore';
+import store from './reducers/reduxStore.ts';
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import store from './state'

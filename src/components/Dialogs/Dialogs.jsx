@@ -3,8 +3,8 @@ import style from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import MessageItem from "./Message/MessageItem";
 import { Field, reduxForm } from "redux-form";
-import { maxLengthCreator, requiredField } from "../../utils/validators/validator";
-import { Textarea } from "../../components/common/FormControls";
+import { maxLengthCreator, requiredField } from "../../utils/validators/validator.ts";
+import { Textarea } from "../../components/common/FormControls.tsx";
 
 
 const Dialogs = (props) => {
