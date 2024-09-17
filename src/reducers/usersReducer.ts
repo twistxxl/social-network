@@ -1,7 +1,7 @@
 import { Dispatch } from "redux"
 import { usersAPI } from "../api/users-api.ts"
 import { userType } from "../types/types"
-import { AppStateType } from "./reduxStore"
+import { AppStateType, BaseThunkType } from "./reduxStore"
 import { ThunkAction } from "redux-thunk"
 import {inferActionsTypes} from "../reducers/reduxStore.ts"
 
@@ -90,7 +90,7 @@ export const actions = {
 
 type GetStateType = () => AppStateType
 type CurrentDispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes>
 
 export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType => {
     return async (dispatch, getState) => {

@@ -1,5 +1,9 @@
 import { profileAPI } from "../api/profile-api.ts";
 import {ProfileType, PostType, photosType} from '../types/types.ts'
+import {inferActionsTypes} from './reduxStore.ts'
+import { BaseThunkType } from "./reduxStore.ts";
+import { FormAction } from "redux-form";
+
 
 const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
@@ -24,9 +28,8 @@ let initialState = {
     newPostText: ''
 }
 
-export type initialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any): initialStateType => {
+const profileReducer = (state = initialState, action: ActionType): initialStateType => {
 
     switch (action.type) {
         case ADD_POST: {
@@ -68,52 +71,12 @@ const profileReducer = (state = initialState, action: any): initialStateType => 
 
 }
 
-type addPostActionCreatorType = {
-    type: typeof ADD_POST
-    newPostText: string
-}
+export const actions = {
 
-export const addPostActionCreator = (newPostText: string): addPostActionCreatorType => {
-    return {
-        type: ADD_POST,
-        newPostText
-    }
-}
-
-type setUserProfileType = {
-    type: typeof SET_USER_PROFILE
-    profile: ProfileType
-}
-
-export const setUserProfile = (profile: ProfileType): setUserProfileType => {
-    return {
-        type: SET_USER_PROFILE,
-        profile
-    }
-}
-
-type setStatusType = {
-    type: typeof SET_STATUS
-    status: string
-}
-
-export const setStatus = (status: string): setStatusType => {
-    return {
-        type: SET_STATUS,
-        status: status
-    }
-}
-
-type savePhotoSuccessType = {
-    type: typeof SAVE_PHOTO_SUCCESS
-    photos: photosType
-}
-
-export const savePhotoSuccess = (photos: photosType): savePhotoSuccessType => {
-    return {
-        type: SAVE_PHOTO_SUCCESS,
-        photos
-    }
+    addPostActionCreator: (newPostText: string) => ({ type: ADD_POST, newPostText } as const),
+    setUserProfile: (profile: ProfileType) => ({ type: SET_USER_PROFILE, profile } as const),
+    setStatus: (status: string) => ({ type: SET_STATUS, status } as const),
+    savePhotoSuccess: (photos: photosType) => ({ type: SAVE_PHOTO_SUCCESS, photos } as const)
 }
 
 
@@ -121,45 +84,50 @@ export const savePhotoSuccess = (photos: photosType): savePhotoSuccessType => {
 //thunk down
 //если есть запрос на сервер(в нашем случае ajax), то нужно использовать thunk
 
-export const getUserProfile = (userId: number) => {
+export const getUserProfile = (userId: number): ThunkType => {
 
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         let data = await profileAPI.getProfile(userId)
-        dispatch(setUserProfile(data))
+        dispatch(actions.setUserProfile(data))
     }
 }
 
-export const getStatus = (userId: number) => {
-    return async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.getStatus(userId)
-        dispatch(setStatus(data))
+        dispatch(actions.setStatus(data))
     }
 }
 
-export const updateStatus = (status: string) => {
-    return async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.updateStatus(status)
                 if (data.resultCode === 0) {
-                    dispatch(setStatus(status))
+                    dispatch(actions.setStatus(status))
                 }
     }
 }
 
-export const savePhoto = (file: any) => {
-    return async (dispatch: any) => {
+export const savePhoto = (file: File): ThunkType => {
+    return async (dispatch) => {
         let data = await profileAPI.savePhoto(file)
         if (data.resultCode === 0) {
-            dispatch(setUserProfile(data.data.photos))
+            dispatch(actions.setUserProfile(data.data.photos))
         }
     }
 }
-export const saveProfile = (profile: ProfileType) => async (dispatch: any, getState: any) => {
+export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState: any) => {
     const userId = getState().auth.userId
     const data = await profileAPI.saveProfile(profile)
     if(data.resultCode === 0) {
         dispatch(getUserProfile(userId))
     }
 }
+
+export type initialStateType = typeof initialState
+type ActionType = inferActionsTypes<typeof actions>
+type ThunkType = BaseThunkType<ActionType | FormAction>
+
 
 
 export default profileReducer
