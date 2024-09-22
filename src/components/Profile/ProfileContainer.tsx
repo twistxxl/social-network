@@ -3,9 +3,9 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import Profile from "./Profile";
+import Profile from "./Profile.tsx";
 import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from "../../reducers/profileReducer.ts";
-import withAuthRedirect from "../../HOC/withAuthRedirect"
+import withAuthRedirect from "../../HOC/withAuthRedirect.tsx";
 
 
 const ProfileContainer = (props) => {

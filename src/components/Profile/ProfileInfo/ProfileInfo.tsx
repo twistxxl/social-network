@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+//@ts-ignore
 import style from "./ProfileInfo.module.css";
+//@ts-ignore
 import userPhoto from "../../../asssets/images/andrew-tate-3.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import ProfileDescriptionReduxForm from "./ProfileDescriptionForm";
-import ProfileDescription from "./ProfileDescription";
+import ProfileDescriptionReduxForm from "./ProfileDescriptionForm.tsx";
+import ProfileDescription from "./ProfileDescription.tsx";
 
 
 

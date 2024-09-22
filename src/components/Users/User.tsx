@@ -1,12 +1,21 @@
 import React from "react";
+//@ts-ignore
 import style from "./Users.module.css"
+//@ts-ignore
 import userPhoto from "../../asssets/images/andrew-tate-3.jpg"
 import { Link } from "react-router-dom"
+import ts from "typescript";
+import { userType } from "../../types/types";
+
+type PropsType = {
+    user: userType
+    followingInProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+}
 
 
-
-
-const User = ({user, followingInProgress, follow, unfollow}) => {
+const User: React.FC<PropsType> = ({user, followingInProgress, follow, unfollow}) => {
 
     return (
         <div>

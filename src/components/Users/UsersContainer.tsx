@@ -7,6 +7,7 @@ import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetchin
 import { userType } from "../../types/types";
 import { AppStateType } from "../../reducers/reduxStore.ts";
 import { compose } from "redux";
+import { actions } from "../../reducers/usersReducer.ts";
 
 
 //это просто данные
@@ -117,7 +118,7 @@ const mapStateToProps = (state: AppStateType) => {
 //         },
         
 //     }
-// }    
+// }
 
 
 //нужно доделать диспатчПропсов
@@ -125,10 +126,10 @@ export default compose(
     //<TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState>
 
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-        follow: followAC,
-        unfollow: unfollowAC,
-        setCurrentPage: setCurrentPageAC,
-        toggleFollowingInProgress:  toggleFollowingInProgress,
+        follow: actions.followAC,
+        unfollow: actions.unfollowAC,
+        setCurrentPage: actions.setCurrentPageAC,
+        toggleFollowingInProgress:  actions.toggleFollowingInProgress,
         getUsers: getUsersThunkCreator
     })
 )(UserAPIComponent)

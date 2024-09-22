@@ -1,11 +1,13 @@
 import React from "react";
-import Post from "./Post/Post";
-import { reduxForm, Field } from "redux-form";
+import Post from "./Post/Post.tsx";
+import { reduxForm, Field, InjectedFormProps } from "redux-form";
 import { requiredField, maxLengthCreator } from "../../../utils/validators/validator.ts";
 import { Textarea } from "../../common/FormControls.tsx";
 
-
-
+//1:06:00 типизация MyPosts(11 video)
+type AddPostsValuesType = {
+    newPostText: string
+}
 
 const MyPosts = React.memo((props) => {
     let postsElements = props.postsData.map(p => <Post message={p.message} likesCount={p.likesCount} />);
@@ -31,7 +33,12 @@ const MyPosts = React.memo((props) => {
 )
 
 
-const AddPostsForm = (props) => {
+type PostsAddPropsType = {
+    addPost: (newPostText: string) => void
+    newPostText: string
+}
+
+const AddPostsForm: React.FC<InjectedFormProps<AddPostsValuesType ,PostsAddPropsType> & PostsAddPropsType> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -49,6 +56,6 @@ const AddPostsForm = (props) => {
     )
 }
 
-const ProfileAddNewPostForm = reduxForm({ form: 'ProfileAddNewPostForm' })(AddPostsForm)
+const ProfileAddNewPostForm = reduxForm< AddPostsValuesType, PostsAddPropsType>({ form: 'ProfileAddNewPostForm' })(AddPostsForm)
 
 export default MyPosts;

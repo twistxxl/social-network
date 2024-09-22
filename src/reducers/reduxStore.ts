@@ -29,7 +29,8 @@ export type AppStateType = ReturnType<RootReducerType>
 
 type PropirtiesTypes<T> = T extends {[ket: string]: infer U} ? U : never
 
-export type inferActionsTypes<T extends {[ket: string]: (...arg: any[])=> any}> = ReturnType<PropirtiesTypes<T>>
+// export type inferActionsTypes<T extends {[key: string]: (...arg: any[])=> any}> = ReturnType<PropirtiesTypes<T>>
+export type inferActionsTypes<T> = T extends {[key: string]: (...arg: any[]) => infer U } ? U : never
 
 export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 

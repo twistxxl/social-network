@@ -85,6 +85,15 @@ export const actions = {
     toggleFollowingInProgress: (isFetching: boolean, userId: number) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId } as const)
 }
 
+    // export const setTotalUsersCountAC = (totalCount: number) => ({ type: SET_TOTAL_COUNT_USERS, totalCount })
+    // export const setCurrentPageAC = (currentPage: number) => ({ type: CURRENT_PAGE, currentPage })
+    // export const followAC = (userId: number) => ({ type: FOLLOW, userId })
+    // export const unfollowAC = (userId: number) => ({ type: UNFOLLOW, userId })
+    // export const setUsersAC = (users: userType) => ({ type: SET_USERS, users })
+    // export const toggleIsFetchingAC = (isFetching: boolean) => ({ type: TOGGLE_IS_FETCHING, isFetching })
+    // export const toggleFollowingInProgress = (isFetching: boolean, userId: number) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId })
+
+
 
 
 

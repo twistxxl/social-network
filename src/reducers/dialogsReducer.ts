@@ -58,7 +58,7 @@ type sendMessageActionCreatorType = {
 }
 
 export const actions = {
-    sendMessageActionCreator : (newMessageBody: string) => ({type: SEND_MESSAGE, newMessageBody} as const),
+    sendMessage : (newMessageBody: string) => ({type: SEND_MESSAGE, newMessageBody} as const),
 
 
 }
