@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 //@ts-ignore
 import style from "./ProfileInfo.module.css";
 //@ts-ignore
@@ -6,11 +6,19 @@ import userPhoto from "../../../asssets/images/andrew-tate-3.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileDescriptionReduxForm from "./ProfileDescriptionForm.tsx";
 import ProfileDescription from "./ProfileDescription.tsx";
+import { ProfileType } from "../../../types/types.ts";
 
 
+type propsType = {
+    profile: any
+    status: string
+    updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<any>
+}
 
-
-const ProfileInfo = (props) => {
+const ProfileInfo: React.FC<propsType> = (props) => {
 
     const [editMode, setEditMode] = useState(false);
 
@@ -19,12 +27,13 @@ const ProfileInfo = (props) => {
         return <div>Loading...</div>;
     }
 
-    const onMainPhotoSelected = (e) => {
-        if (e.target.files.length) {
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
             props.savePhoto(e.target.files[0]);
         }
     }
-    const onSubmit = (formData) => {
+    //todo: remove then
+    const onSubmit = (formData: ProfileType) => {
         props.saveProfile(formData).then(() => {
             setEditMode(false);
         });
@@ -49,3 +58,4 @@ const ProfileInfo = (props) => {
 }
 
 export default ProfileInfo;
+//1:21:21
