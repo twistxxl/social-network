@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import {getUsersThunkCreator } from "../../reducers/usersReducer.ts";
+import {FilterType, getUsersThunkCreator } from "../../reducers/usersReducer.ts";
 import Users from "./Users.tsx";
 import withAuthRedirect from "../../HOC/withAuthRedirect.jsx";
-import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress } from '../../reducers/usersSelectors.ts'
+import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress, getUsersFilter } from '../../reducers/usersSelectors.ts'
 import { userType } from "../../types/types";
 import { AppStateType } from "../../reducers/reduxStore.ts";
 import { compose } from "redux";
@@ -19,6 +19,7 @@ type MapStateToPropsType = {
     isFetching: boolean
     followingInProgress: Array<number>
     pageTitle: string
+    filter: FilterType
 }
 //это колбеки
 type MapDispatchToPropsType = {
@@ -26,7 +27,7 @@ type MapDispatchToPropsType = {
     unfollow: (userId: number) => void
     setCurrentPage: (pageNumber: number) => void
     toggleFollowingInProgress: (isFetching: boolean, userId: number) => void
-    getUsers: (pageNumber: number, pageSize: number) => void
+    getUsers: (pageNumber: number, pageSize: number, filter: FilterType) => void
 }
 //через атрибуты передаются
 type OwnPropsType = {
@@ -55,11 +56,18 @@ type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 class UserAPIComponent extends React.Component<PropsType> {
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize, filter} = this.props
+        this.props.getUsers(currentPage, pageSize, filter)
     }
 
-    onPageChanged = (pageNumber) => {
-        this.props.getUsers(pageNumber, this.props.pageSize)
+    onPageChanged = (pageNumber: number) => {
+        const {pageSize, filter} = this.props
+        this.props.getUsers(pageNumber, pageSize, filter)
+    }
+
+    onFilterChanged = (filter: FilterType) => {
+        const {pageSize, currentPage} = this.props
+        this.props.getUsers(1, pageSize, filter)
     }
 
     render() {
@@ -77,7 +85,7 @@ class UserAPIComponent extends React.Component<PropsType> {
             setCurrentPage={this.props.setCurrentPage}
             toggleFollowingInProgress={this.props.toggleFollowingInProgress}
             followingInProgress={this.props.followingInProgress}
-
+            onFilterChanged={this.onFilterChanged}
         />
         </>
     }
@@ -93,6 +101,8 @@ const mapStateToProps = (state: AppStateType) => {
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
         followingInProgress: getFollowingInProgress(state),
+        filter: getUsersFilter(state),
+        
     }
 }
 
@@ -124,7 +134,7 @@ const mapStateToProps = (state: AppStateType) => {
 //нужно доделать диспатчПропсов
 export default compose(
     //<TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultRootState>
-
+//@ts-ignore
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
         follow: actions.followAC,
         unfollow: actions.unfollowAC,

@@ -58,4 +58,3 @@ const ProfileInfo: React.FC<propsType> = (props) => {
 }
 
 export default ProfileInfo;
-//1:21:21

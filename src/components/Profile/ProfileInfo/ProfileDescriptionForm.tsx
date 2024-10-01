@@ -1,10 +1,17 @@
 import React from "react"
 import { Input, Textarea } from "../../common/FormControls.tsx"
-import { Field, reduxForm } from "redux-form"
+import { Field, reduxForm, InjectedFormProps } from "redux-form"
+import { ProfileType } from "../../../types/types.ts"
 
 
 
-const ProfileDescriptionForm = ({ handleSubmit, ...props }) => {
+type PropsType = {
+    profile: ProfileType
+}
+
+
+
+const ProfileDescriptionForm: React.FC<InjectedFormProps<ProfileType, PropsType> & PropsType> = ({ handleSubmit, ...props }) => {
 
     return (
         <div>
@@ -29,7 +36,7 @@ const ProfileDescriptionForm = ({ handleSubmit, ...props }) => {
     )
 }
 
-const ProfileDescriptionReduxForm = reduxForm({
+const ProfileDescriptionReduxForm = reduxForm<ProfileType, PropsType>({
     form: 'editProfile'
 })(ProfileDescriptionForm)
 

@@ -5,6 +5,7 @@ import { Input } from "../common/FormControls.tsx";
 import { connect } from "react-redux";
 import { login } from "../../reducers/authReducer.ts";
 import { Navigate } from "react-router-dom";
+//@ts-ignore
 import s from '../common/FormControls.module.css'
 
 

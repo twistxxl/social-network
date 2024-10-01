@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./ProfileInfo.module.css";
 
 
-
+//не стал типизировать, 11 урок (1:52:00) он типизурет этот файл
 const ProfileStatusWithHooks = (props) => {
 
     const [editMode, setEditMode] = useState(false);

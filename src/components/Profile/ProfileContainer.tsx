@@ -1,20 +1,32 @@
-
-
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { PathRouteProps, useNavigate, useParams,  } from "react-router-dom";
 import { connect } from "react-redux";
 import Profile from "./Profile.tsx";
 import { getStatus, getUserProfile, updateStatus, savePhoto, saveProfile } from "../../reducers/profileReducer.ts";
 import withAuthRedirect from "../../HOC/withAuthRedirect.tsx";
+import { ProfileType } from "../../types/types.ts";
+
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+    getUserProfile: (userId: number) => void
+    getStatus: (userId: number) => void
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<any>
+    store: any
+}
+
+type PropsType = MapPropsType & DispatchPropsType
 
 
-const ProfileContainer = (props) => {
+const ProfileContainer: React.FC<PropsType> = (props) => {
 
-    let { id } = useParams();
+    let { id } = useParams<{ id: any }>()
     if (!id) {
         id = props.autherizedUserId
 
         if (!id) {
+            //@ts-ignore
             props.history.push('/login')
         }
     }
@@ -45,6 +57,7 @@ const ProfileContainer = (props) => {
     );
 };
 
+//@ts-ignore
 let AuthRiderectComponent = withAuthRedirect(ProfileContainer)
 //ниже отправка куда??
 const mapStateToProps = (state) => ({

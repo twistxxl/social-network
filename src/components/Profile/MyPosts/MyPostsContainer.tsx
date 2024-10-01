@@ -31,6 +31,9 @@ import { connect } from "react-redux";
 //     );
 // };
 
+
+//не стал типизировать, 11 урок (1:43:30) он типизурет этот файл
+
 const mapStateToProps = (state) => {
     return {
         postsData: state.profilePage.postsData,

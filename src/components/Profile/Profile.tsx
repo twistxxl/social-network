@@ -3,9 +3,20 @@ import React from "react";
 import style from './Profile.module.css';
 import ProfileInfo from "./ProfileInfo/ProfileInfo.tsx";
 import MyPostsContainer from "./MyPosts/MyPostsContainer.tsx";
+import { ProfileType } from "../../types/types.ts";
+
+type PropsType = {
+    profile: ProfileType
+    status: string
+    updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => Promise<any>
+    store: any
+}
 
 
-const Profile = (props) => {
+const Profile: React.FC<PropsType> = (props) => {
 
 
     return (
