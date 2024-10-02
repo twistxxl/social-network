@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';  
 import UsersContainer from './components/Users/UsersContainer.tsx';  
 import HeaderContainer from './components/Header/HeaderContainer.jsx';  
-import Login from './components/Login/Login.tsx';  
+import {Login} from './components/Login/Login.tsx';  
 import { connect } from 'react-redux';  
 import { initializeApp } from './reducers/appReducer.ts';  
 import { compose } from 'redux';  

@@ -35,6 +35,7 @@ const UserSearchForm: React.FC<PropsType> = React.memo((props) => {
         <>
             <Formik
                 initialValues={{ term: "", friend: "null" }}
+                //@ts-ignore
                 validate={userSearchFormValidate}
                 onSubmit={onSubmit}
             >

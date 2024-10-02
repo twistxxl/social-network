@@ -1,26 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Paginator from "./Paginator.tsx"
 import User from "./User.tsx"
 import { userType } from "../../types/types";
 import UserSearchForm from "./UserSearchForm.tsx"
-import { FilterType } from "./../../reducers/usersReducer.ts"
-
+import { FilterType, getUsersThunkCreator } from "./../../reducers/usersReducer.ts"
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentPage, getFollowingInProgress, getPageSize, getTotalUsersCount, getUsers, getUsersFilter } from "../../reducers/usersSelectors.ts"
+import { follow, unfollow } from "../../reducers/usersReducer.ts"
 type PropsType = {
-    totalUsersCount: number
-    pageSize: number
-    currentPage: number
-    onPageChanged: (p: number) => void
-    users: Array<userType>
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-    followingInProgress: Array<number>
-    setCurrentPage: (pageNumber: number) => void
-    toggleFollowingInProgress: (isFetching: boolean, userId: number) => void
-    onFilterChanged: (filter: FilterType) => void
+//     setCurrentPage: (pageNumber: number) => void
+//     toggleFollowingInProgress: (isFetching: boolean, userId: number) => void
 }
 
 
-const Users: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, onPageChanged, users, follow, unfollow, followingInProgress, ...props}) => {
+const Users: React.FC<PropsType> = (props) => {
+
+    useEffect(() => {
+        dispatch(getUsersThunkCreator(currentPage, pageSize, filter))
+    }, [])
+
+    const totalUsersCount = useSelector(getTotalUsersCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const filter = useSelector(getUsersFilter)
+    const users = useSelector(getUsers)
+    const followingInProgress = useSelector(getFollowingInProgress)
+
+    const dispatch = useDispatch()
+
+
+
+    //должно быть внутри фун-ий dispatch(funcAC(parameters))
+    //если сделать так, то ts ошибки кидает, оставил голыми
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(getUsersThunkCreator(pageNumber, pageSize, filter))
+    }
+    const onFilterChanged = (filter: FilterType) => {
+        dispatch(getUsersThunkCreator(1, pageSize, filter))
+    }
+    const follow = (userId: number) => {
+        dispatch(follow(userId))
+    }
+    const unfollow = (userId: number) => {
+        dispatch(unfollow(userId))
+    }
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
     let pages: Array<number> = [];
@@ -31,7 +54,7 @@ const Users: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, onP
 
     return (
         <div>
-            <UserSearchForm  onFilterChanged={props.onFilterChanged}/>
+            <UserSearchForm  onFilterChanged={onFilterChanged}/>
             <Paginator 
             currentPage={currentPage} 
             onPageChanged={onPageChanged} 
@@ -40,35 +63,12 @@ const Users: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, onP
             />
 
             {users.map(user => {
-                return <User key={user.id} user={user} followingInProgress={followingInProgress} follow={follow} unfollow={unfollow}/>
-                    {/* <span>
-                        <div>
-                            <Link to={'/profile/' + user.id}>
-                                <img src={user.photos.small != null ? user.photos.small : userPhoto} className={style.userPhoto} alt="userPhoto" />
-                            </Link>
-                        </div>
-                        <div>
-                            {user.followed
-                                ?
-                                <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                                    props.unfollow(user.id)
-                                }}>Unfollow</button>
-                                :
-                                <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                                   props.follow(user.id)
-                                }}>Follow</button>}
-                        </div>
-                    </span>
-                    <span>
-                        <span>
-                            <div>{user.name}</div>
-                            <div>{user.status}</div>
-                        </span>
-                        <span>
-                            <div>{"user.location.country"}</div>
-                            <div>{"user.location.city"}</div>
-                        </span>
-                    </span> */}
+                return <User
+                key={user.id} 
+                user={user} 
+                followingInProgress={followingInProgress} 
+                follow={follow} 
+                unfollow={unfollow}/>
             })}
         </div>
     )
