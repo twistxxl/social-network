@@ -17,11 +17,8 @@ import { Avatar, Breadcrumb, Layout, Menu, theme } from 'antd';
 import SubMenu from 'antd/es/menu/SubMenu';
 import { Header } from './components/Header/Header.jsx';
 
-const {  Content, Sider } = Layout;
-const items1: MenuProps['items'] = ["TheDevelopers"].map((key) => ({
-  key,
-  label: `${key}`,
-}));
+const { Content, Sider } = Layout;
+
 
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   (icon, index) => {
@@ -46,6 +43,7 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer.tsx'))
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer.tsx'))
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage.tsx'))
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -69,7 +67,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
   return (
     <BrowserRouter>
       <Layout>
-        <Header/>
+        <Header />
         <Layout>
           <Sider width={200} style={{ background: colorBgContainer }}>
             <Menu
@@ -79,14 +77,6 @@ const App = (props: MapPropsType & DispatchPropsType) => {
               style={{ height: '100%', borderRight: 0 }}
             // items={items2}
             >
-              {/* <nav className={style.nav}>
-              <div><Link to="/profile">Profile</Link></div>
-              <div><Link to="/dialogs">Messages</Link></div>
-              <div><Link to="/users">Users</Link></div>
-              <div><Link to="/news">News</Link></div>
-              <div><Link to="/music">Music</Link></div>
-              <div><Link to="/settings">Settings</Link></div>
-            </nav> */}
               <SubMenu key="sub1" icon={<UserOutlined />} title="Профиль">
                 <Menu.Item key="profile">
                   <Link to="/profile">Profile</Link>
@@ -98,6 +88,9 @@ const App = (props: MapPropsType & DispatchPropsType) => {
               <SubMenu key="sub2" icon={<LaptopOutlined />} title="Пользователи">
                 <Menu.Item key="users">
                   <Link to="/users">Users</Link>
+                </Menu.Item>
+                <Menu.Item key="users">
+                  <Link to="/chat">Chat</Link>
                 </Menu.Item>
               </SubMenu>
               <SubMenu key="sub3" icon={<NotificationOutlined />} title="Прочее">
@@ -124,7 +117,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
                 margin: 0,
                 minHeight: 280,
                 background: colorBgContainer,
-                borderRadius: borderRadiusLG,
+                // borderRadius: borderRadiusLG,
               }}>
               <div className='app-wrapper-content'>
                 <Suspense fallback={<div>Loading...</div>}>
@@ -140,6 +133,7 @@ const App = (props: MapPropsType & DispatchPropsType) => {
                     } />
                     <Route path='/users' element={<UsersContainer pageTitle={"samurai"} />} />
                     <Route path='/login' element={<Login />} />
+                    <Route path='/chat' element={<ChatPage />} />
                     <Route path='*' element={<div>
                       <span>404 NOT FOUND</span>
                     </div>} />
