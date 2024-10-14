@@ -1,27 +1,20 @@
 import React, { useEffect } from "react";
 import { WebSocketType } from "./Messages";
+import { useDispatch, useSelector } from "react-redux";
+import { sendMessage } from "../../reducers/chat-reducer.ts";
 
 
-
-const AddMessagesForm: React.FC<WebSocketType> = ({ws}) => {
+const AddMessagesForm: React.FC = () => {
 
     const [message, setMessage] = React.useState('')
-    const [readyStatus, setReadyStatus] = React.useState<'pending' | 'ready'>('pending')
+    const dispatch = useDispatch()
 
-    useEffect(() => {
-        let openHandler =  () => {
-            setReadyStatus('ready')
-        }
-        ws?.addEventListener('open', openHandler)
-        //обязательно делать отписку, cleanUp func
-        return () => {
-            ws?.removeEventListener('open', openHandler)
-        }
-    }, [])
+    const status = useSelector((state: any) => state.chat.status)
 
     const onMessageSend = () => {
         if(!message) return
-        ws?.send(message)
+        //@ts-ignore
+        dispatch(sendMessage(message))
         setMessage('')
     }
 
@@ -32,7 +25,7 @@ const AddMessagesForm: React.FC<WebSocketType> = ({ws}) => {
             <textarea onChange={(e) => setMessage(e.currentTarget.value) } value={message}></textarea>
         </div>
         <div>
-            <button disabled={!readyStatus} onClick={onMessageSend}>send</button>
+            <button disabled={false} onClick={onMessageSend}>send</button>
         </div>
         </>
     )

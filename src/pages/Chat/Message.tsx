@@ -4,9 +4,11 @@ import React, { useEffect } from "react";
 import style from "./ChatStyle.module.css"
 import { ChatMessageType } from "./ChatPage.tsx";
 
+type MessagePropsType = {
+    messages: ChatMessageType
+}
 
-
-const Message: React.FC<{messages: ChatMessageType}> = ({messages}) => {
+const Message: React.FC<MessagePropsType> = React.memo(({messages}) => {
     //@ts-ignore
     const avatarStyle = {
         width: '45px',
@@ -18,10 +20,9 @@ const Message: React.FC<{messages: ChatMessageType}> = ({messages}) => {
 
     }
 
-
+console.log('renders');
     return (
         <div>
-            {/*@ts-ignore*/} 
             <img src={messages?.photo} alt="avatar" style={avatarStyle} />
             <b>{messages?.userName}</b><br />
             <p>{messages?.message}</p>
@@ -29,6 +30,6 @@ const Message: React.FC<{messages: ChatMessageType}> = ({messages}) => {
             <hr/> 
         </div>
     );
-};  
+})
 
 export default Message

@@ -1,43 +1,35 @@
 import React, { useEffect } from "react";
 import Messages from "./Messages.tsx";
 import AddMessageForm from "./AddMessagesForm.tsx";
+import { useDispatch, useSelector } from "react-redux";
+import { startMessagesListening, stopMessagesListening } from "../../reducers/chat-reducer.ts";
 
 const Chat = () => {
-    const [ws, setWs] = React.useState<WebSocket | null>(null)
+    const dispatch = useDispatch()
 
     
 
     useEffect(() => {
-        let ws: WebSocket | null = null
-        const closeHandler = () => {
-            setTimeout(() => createChannel(), 3000)
+        //@ts-ignore
+        dispatch(startMessagesListening())
+        //cleanUp func
+        return () => {
+            //@ts-ignore
+            dispatch(stopMessagesListening())
         }
-        const createChannel = () => {
-            if(ws !== null) {
-                ws.removeEventListener('close', closeHandler)
-                ws.close()
-            }
-            let wsChannel = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
-            wsChannel?.addEventListener('close', closeHandler)
-            setWs(wsChannel)
-        }
-        createChannel()
-
-        //зачситка при выходе -> componentDidUnmount
-        return () => {  
-            if (ws) { 
-                ws.removeEventListener('close', closeHandler);  
-                ws.close();  
-            }  
-        }; 
     }, [])
-    
+    const status = useSelector((state: any) => state.chat.status)
 
 
     return (
         <div>
-            <Messages ws={ws}/>
-            <AddMessageForm ws={ws} />
+            {status === 'error' ? (<div>Some error occured. Please refresh the page</div>
+            ):(
+            <>
+                <Messages />
+                <AddMessageForm />
+            </>
+            )}
         </div>
     )
 }
